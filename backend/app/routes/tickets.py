@@ -1,6 +1,6 @@
 import uuid
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
@@ -43,5 +43,15 @@ def update_ticket(
     try:
         ticket = ticket_service.get_ticket_by_id(db, ticket_id)
         return ticket_service.update_ticket(db, ticket, ticket_data)
+    except TicketNotFound:
+        raise HTTPException(status_code=404, detail="Ticket not found")
+
+
+@router.delete("/{ticket_id}", status_code=204)
+def delete_ticket(ticket_id: uuid.UUID, db: Session = Depends(get_db)):
+    try:
+        ticket = ticket_service.get_ticket_by_id(db, ticket_id)
+        ticket_service.delete_ticket(db, ticket)
+        return Response(status_code=204)
     except TicketNotFound:
         raise HTTPException(status_code=404, detail="Ticket not found")

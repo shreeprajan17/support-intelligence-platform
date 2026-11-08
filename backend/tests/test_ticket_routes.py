@@ -245,3 +245,49 @@ class TestUpdateTicket:
         ticket_id = uuid4()
         response = client.patch(f"/api/v1/tickets/{ticket_id}", json={"subject": None})
         assert response.status_code == 422
+
+
+# ---------------------------------------------------------------------------
+# DELETE /api/v1/tickets/{ticket_id}
+# ---------------------------------------------------------------------------
+
+class TestDeleteTicket:
+    def test_returns_204_on_success(self):
+        ticket = _make_response()
+        with (
+            patch("app.routes.tickets.ticket_service.get_ticket_by_id", return_value=ticket),
+            patch("app.routes.tickets.ticket_service.delete_ticket"),
+        ):
+            response = client.delete(f"/api/v1/tickets/{ticket.id}")
+        assert response.status_code == 204
+
+    def test_response_has_no_body(self):
+        ticket = _make_response()
+        with (
+            patch("app.routes.tickets.ticket_service.get_ticket_by_id", return_value=ticket),
+            patch("app.routes.tickets.ticket_service.delete_ticket"),
+        ):
+            response = client.delete(f"/api/v1/tickets/{ticket.id}")
+        assert response.content == b""
+
+    def test_returns_404_when_not_found(self):
+        missing_id = uuid4()
+        with patch(
+            "app.routes.tickets.ticket_service.get_ticket_by_id",
+            side_effect=TicketNotFound(missing_id),
+        ):
+            response = client.delete(f"/api/v1/tickets/{missing_id}")
+        assert response.status_code == 404
+
+    def test_404_body_contains_detail(self):
+        missing_id = uuid4()
+        with patch(
+            "app.routes.tickets.ticket_service.get_ticket_by_id",
+            side_effect=TicketNotFound(missing_id),
+        ):
+            response = client.delete(f"/api/v1/tickets/{missing_id}")
+        assert response.json()["detail"] == "Ticket not found"
+
+    def test_rejects_non_uuid_id(self):
+        response = client.delete("/api/v1/tickets/not-a-uuid")
+        assert response.status_code == 422

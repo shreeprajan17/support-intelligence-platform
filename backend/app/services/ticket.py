@@ -53,3 +53,12 @@ def update_ticket(db: Session, ticket: Ticket, ticket_data: TicketUpdate) -> Tic
         db.rollback()
         raise
     return ticket
+
+
+def delete_ticket(db: Session, ticket: Ticket) -> None:
+    try:
+        db.delete(ticket)
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
