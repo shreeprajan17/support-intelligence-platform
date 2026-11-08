@@ -11,10 +11,8 @@ export function Sidebar() {
     <aside className="w-64 h-full bg-white border-r border-gray-200 flex flex-col flex-shrink-0">
       <div className="h-16 flex items-center px-6 border-b border-gray-200">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-            <span className="text-xs font-bold text-white">SIP</span>
-          </div>
-          <span className="text-sm font-semibold text-gray-900">SupportIQ</span>
+          <img src="/tramium-color.svg" alt="Tramium" className="w-8 h-8" />
+          <span className="text-sm font-semibold text-gray-900">Tramium</span>
         </div>
       </div>
 
