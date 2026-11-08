@@ -40,17 +40,17 @@ const STAT_CARDS = [
 ]
 
 const PRIORITY_STYLES: Record<Priority, string> = {
-  critical: 'bg-red-100 text-red-800 ring-1 ring-inset ring-red-300',
-  high: 'bg-red-50 text-red-700 ring-1 ring-inset ring-red-200',
-  medium: 'bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-200',
-  low: 'bg-green-50 text-green-700 ring-1 ring-inset ring-green-200',
+  critical: 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400 ring-1 ring-inset ring-red-300 dark:ring-red-800',
+  high: 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 ring-1 ring-inset ring-red-200 dark:ring-red-800',
+  medium: 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 ring-1 ring-inset ring-amber-200 dark:ring-amber-800',
+  low: 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 ring-1 ring-inset ring-green-200 dark:ring-green-800',
 }
 
 const STATUS_STYLES: Record<Status, string> = {
-  open: 'bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-200',
-  in_progress: 'bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-200',
-  resolved: 'bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-200',
-  closed: 'bg-gray-100 text-gray-600 ring-1 ring-inset ring-gray-200',
+  open: 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 ring-1 ring-inset ring-blue-200 dark:ring-blue-800',
+  in_progress: 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 ring-1 ring-inset ring-amber-200 dark:ring-amber-800',
+  resolved: 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 ring-1 ring-inset ring-emerald-200 dark:ring-emerald-800',
+  closed: 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 ring-1 ring-inset ring-gray-200 dark:ring-gray-600',
 }
 
 const STATUS_LABELS: Record<Status, string> = {
@@ -76,21 +76,21 @@ function SkeletonRows() {
         <tr key={i} className="animate-pulse">
           <td className="px-6 py-4">
             <div className="space-y-2">
-              <div className="h-3.5 bg-gray-200 rounded-full w-48" />
-              <div className="h-2.5 bg-gray-100 rounded-full w-20" />
+              <div className="h-3.5 bg-gray-200 dark:bg-gray-700 rounded-full w-48" />
+              <div className="h-2.5 bg-gray-100 dark:bg-gray-800 rounded-full w-20" />
             </div>
           </td>
           <td className="px-6 py-4">
-            <div className="h-3 bg-gray-200 rounded-full w-36" />
+            <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded-full w-36" />
           </td>
           <td className="px-6 py-4">
-            <div className="h-5 bg-gray-200 rounded-md w-16" />
+            <div className="h-5 bg-gray-200 dark:bg-gray-700 rounded-md w-16" />
           </td>
           <td className="px-6 py-4">
-            <div className="h-5 bg-gray-200 rounded-md w-20" />
+            <div className="h-5 bg-gray-200 dark:bg-gray-700 rounded-md w-20" />
           </td>
           <td className="px-6 py-4">
-            <div className="h-3 bg-gray-200 rounded-full w-28" />
+            <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded-full w-28" />
           </td>
         </tr>
       ))}
@@ -108,24 +108,24 @@ export function DashboardPage() {
         {STAT_CARDS.map(({ label, value, icon: Icon, iconColor, iconBg }) => (
           <div
             key={label}
-            className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm"
+            className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm"
           >
             <div className="flex items-center justify-between">
-              <p className="text-sm font-medium text-gray-500">{label}</p>
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{label}</p>
               <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${iconBg}`}>
                 <Icon className={`w-5 h-5 ${iconColor}`} />
               </div>
             </div>
-            <p className="mt-3 text-2xl font-semibold text-gray-900">{value}</p>
+            <p className="mt-3 text-2xl font-semibold text-gray-900 dark:text-white">{value}</p>
           </div>
         ))}
       </div>
 
       {/* Recent tickets */}
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="text-base font-semibold text-gray-900">Recent Tickets</h2>
-          <p className="text-sm text-gray-500 mt-0.5">
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+          <h2 className="text-base font-semibold text-gray-900 dark:text-white">Recent Tickets</h2>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
             Latest activity across your support queue
           </p>
         </div>
@@ -133,11 +133,11 @@ export function DashboardPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-100">
+              <tr className="border-b border-gray-100 dark:border-gray-700">
                 {['Subject', 'Customer', 'Priority', 'Status', 'Created'].map((h) => (
                   <th
                     key={h}
-                    className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-6 py-3 whitespace-nowrap"
+                    className="text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider px-6 py-3 whitespace-nowrap"
                   >
                     {h}
                   </th>
@@ -145,21 +145,21 @@ export function DashboardPage() {
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-gray-50 dark:divide-gray-700">
               {isLoading && <SkeletonRows />}
 
               {isError && !isLoading && (
                 <tr>
                   <td colSpan={5} className="px-6 py-12">
                     <div className="flex flex-col items-center justify-center text-center">
-                      <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center mb-3">
-                        <AlertTriangle className="w-5 h-5 text-red-500" />
+                      <div className="w-10 h-10 rounded-full bg-red-50 dark:bg-red-900/30 flex items-center justify-center mb-3">
+                        <AlertTriangle className="w-5 h-5 text-red-500 dark:text-red-400" />
                       </div>
-                      <p className="text-sm font-medium text-gray-900">Could not load recent tickets</p>
+                      <p className="text-sm font-medium text-gray-900 dark:text-white">Could not load recent tickets</p>
                       <button
                         type="button"
                         onClick={() => void refetch()}
-                        className="mt-3 px-3 py-1.5 rounded-md bg-gray-900 text-xs font-medium text-white hover:bg-gray-700 transition-colors"
+                        className="mt-3 px-3 py-1.5 rounded-md bg-gray-900 dark:bg-gray-700 text-xs font-medium text-white hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
                       >
                         Try again
                       </button>
@@ -170,7 +170,7 @@ export function DashboardPage() {
 
               {!isLoading && !isError && data?.items.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-sm text-gray-400">
+                  <td colSpan={5} className="px-6 py-12 text-center text-sm text-gray-400 dark:text-gray-500">
                     No tickets yet.
                   </td>
                 </tr>
@@ -179,16 +179,16 @@ export function DashboardPage() {
               {!isLoading &&
                 !isError &&
                 data?.items.map((ticket) => (
-                  <tr key={ticket.id} className="hover:bg-gray-50 transition-colors">
+                  <tr key={ticket.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                     <td className="px-6 py-4">
-                      <p className="font-medium text-gray-900 truncate max-w-xs">
+                      <p className="font-medium text-gray-900 dark:text-white truncate max-w-xs">
                         {ticket.subject}
                       </p>
                       {ticket.category && (
-                        <p className="text-xs text-gray-400 mt-0.5">{ticket.category}</p>
+                        <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{ticket.category}</p>
                       )}
                     </td>
-                    <td className="px-6 py-4 text-gray-600 whitespace-nowrap">
+                    <td className="px-6 py-4 text-gray-600 dark:text-gray-300 whitespace-nowrap">
                       {ticket.customer_email}
                     </td>
                     <td className="px-6 py-4">
@@ -205,7 +205,7 @@ export function DashboardPage() {
                         {STATUS_LABELS[ticket.status]}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-gray-500 whitespace-nowrap">
+                    <td className="px-6 py-4 text-gray-500 dark:text-gray-400 whitespace-nowrap">
                       {formatDate(ticket.created_at)}
                     </td>
                   </tr>

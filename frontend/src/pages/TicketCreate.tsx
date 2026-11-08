@@ -42,18 +42,18 @@ export function TicketCreatePage() {
       <button
         type="button"
         onClick={() => navigate('/tickets')}
-        className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900 transition-colors"
+        className="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
       >
         <ChevronLeft className="w-4 h-4" />
         Back to Tickets
       </button>
 
       <div>
-        <h2 className="text-xl font-semibold text-gray-900">New Ticket</h2>
-        <p className="text-sm text-gray-500 mt-1">Submit a new support request</p>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">New Ticket</h2>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Submit a new support request</p>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm p-6">
         <TicketForm
           defaultValues={{
             subject: '',

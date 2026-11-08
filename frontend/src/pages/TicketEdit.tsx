@@ -11,13 +11,13 @@ import { toast } from '../lib/toast.ts'
 function EditSkeleton() {
   return (
     <div className="max-w-2xl mx-auto space-y-6 animate-pulse">
-      <div className="h-4 bg-gray-200 rounded-full w-32" />
-      <div className="h-6 bg-gray-200 rounded-full w-48" />
-      <div className="bg-white rounded-xl border border-gray-200 p-6 space-y-5">
+      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded-full w-32" />
+      <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-full w-48" />
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 space-y-5">
         {Array.from({ length: 4 }).map((_, i) => (
           <div key={i} className="space-y-2">
-            <div className="h-3 bg-gray-200 rounded-full w-20" />
-            <div className="h-9 bg-gray-100 rounded-lg w-full" />
+            <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded-full w-20" />
+            <div className="h-9 bg-gray-100 dark:bg-gray-800 rounded-lg w-full" />
           </div>
         ))}
       </div>
@@ -38,16 +38,16 @@ export function TicketEditPage() {
     const is404 = axios.isAxiosError(error) && error.response?.status === 404
     return (
       <div className="flex flex-col items-center justify-center py-24 text-center">
-        <div className="w-14 h-14 rounded-full bg-red-50 flex items-center justify-center mb-4">
-          <AlertTriangle className="w-7 h-7 text-red-500" />
+        <div className="w-14 h-14 rounded-full bg-red-50 dark:bg-red-900/30 flex items-center justify-center mb-4">
+          <AlertTriangle className="w-7 h-7 text-red-500 dark:text-red-400" />
         </div>
-        <p className="text-base font-semibold text-gray-900">
+        <p className="text-base font-semibold text-gray-900 dark:text-white">
           {is404 ? 'Ticket not found' : 'Failed to load ticket'}
         </p>
         <button
           type="button"
           onClick={() => navigate('/tickets')}
-          className="mt-5 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-gray-900 text-sm font-medium text-white hover:bg-gray-700 transition-colors"
+          className="mt-5 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-gray-900 dark:bg-gray-700 text-sm font-medium text-white hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
         >
           <ChevronLeft className="w-4 h-4" />
           Back to Tickets
@@ -89,18 +89,18 @@ export function TicketEditPage() {
       <button
         type="button"
         onClick={() => navigate(`/tickets/${id}`)}
-        className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900 transition-colors"
+        className="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
       >
         <ChevronLeft className="w-4 h-4" />
         Back to Ticket
       </button>
 
       <div>
-        <h2 className="text-xl font-semibold text-gray-900">Edit Ticket</h2>
-        <p className="text-sm text-gray-500 mt-1 truncate max-w-md">{ticket.subject}</p>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Edit Ticket</h2>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 truncate max-w-md">{ticket.subject}</p>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm p-6">
         <TicketForm
           defaultValues={{
             subject: ticket.subject,

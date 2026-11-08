@@ -10,16 +10,16 @@ function ToastItem({ entry }: { entry: ToastEntry }) {
       role="alert"
       className={`flex items-start gap-3 w-80 max-w-[calc(100vw-2rem)] rounded-xl px-4 py-3 shadow-lg border ${
         isSuccess
-          ? 'bg-white border-emerald-200'
-          : 'bg-white border-red-200'
+          ? 'bg-white dark:bg-gray-800 border-emerald-200 dark:border-emerald-800'
+          : 'bg-white dark:bg-gray-800 border-red-200 dark:border-red-800'
       }`}
     >
       {isSuccess ? (
-        <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
+        <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400 flex-shrink-0 mt-0.5" />
       ) : (
-        <XCircle className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
+        <XCircle className="w-4 h-4 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5" />
       )}
-      <span className="text-sm text-gray-700 leading-snug">{entry.message}</span>
+      <span className="text-sm text-gray-700 dark:text-gray-300 leading-snug">{entry.message}</span>
     </div>
   )
 }

@@ -8,12 +8,12 @@ export function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
-    <div className="flex h-full bg-gray-50 overflow-hidden">
+    <div className="flex h-full bg-gray-50 dark:bg-gray-900 overflow-hidden">
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-20 bg-gray-900/50 lg:hidden"
+          className="fixed inset-0 z-20 bg-gray-900/50 dark:bg-black/70 lg:hidden"
           onClick={() => setSidebarOpen(false)}
           aria-hidden="true"
         />
