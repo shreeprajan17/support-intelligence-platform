@@ -2,24 +2,11 @@ from __future__ import annotations
 
 import uuid
 from datetime import datetime
-from enum import Enum
 from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, model_validator
 
-
-class Priority(str, Enum):
-    low = "low"
-    medium = "medium"
-    high = "high"
-    critical = "critical"
-
-
-class Status(str, Enum):
-    open = "open"
-    in_progress = "in_progress"
-    resolved = "resolved"
-    closed = "closed"
+from app.models.ticket import Priority, Status
 
 
 class TicketCreate(BaseModel):
