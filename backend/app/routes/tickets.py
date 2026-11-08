@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
+from app.models.ticket import Priority, Status
 from app.schemas.ticket import TicketCreate, TicketListResponse, TicketResponse, TicketUpdate
 from app.services import ticket as ticket_service
 from app.services.ticket import TicketNotFound
@@ -20,9 +21,19 @@ def create_ticket(ticket_data: TicketCreate, db: Session = Depends(get_db)):
 def list_tickets(
     skip: int = Query(default=0, ge=0),
     limit: int = Query(default=20, ge=1, le=100),
+    search: str | None = Query(default=None, max_length=200),
+    status: Status | None = Query(default=None),
+    priority: Priority | None = Query(default=None),
+    category: str | None = Query(default=None, max_length=100),
+    sort_by: str = Query(
+        default="created_at_desc",
+        pattern="^(created_at_desc|created_at_asc|priority_desc|priority_asc)$",
+    ),
     db: Session = Depends(get_db),
 ):
-    tickets, total = ticket_service.get_tickets(db, skip, limit)
+    tickets, total = ticket_service.get_tickets(
+        db, skip, limit, search, status, priority, category, sort_by
+    )
     return TicketListResponse(items=tickets, total=total, skip=skip, limit=limit)
 
 

@@ -1,9 +1,9 @@
 import uuid
 
-from sqlalchemy import func, select
+from sqlalchemy import func, or_, select
 from sqlalchemy.orm import Session
 
-from app.models.ticket import Ticket
+from app.models.ticket import Priority, Status, Ticket
 from app.schemas.ticket import TicketCreate, TicketUpdate
 
 
@@ -23,14 +23,58 @@ def create_ticket(db: Session, ticket_data: TicketCreate) -> Ticket:
     return ticket
 
 
-def get_tickets(db: Session, skip: int, limit: int) -> tuple[list[Ticket], int]:
-    total = db.scalar(select(func.count()).select_from(Ticket)) or 0
+def get_tickets(
+    db: Session,
+    skip: int,
+    limit: int,
+    search: str | None = None,
+    status: Status | None = None,
+    priority: Priority | None = None,
+    category: str | None = None,
+    sort_by: str = "created_at_desc",
+) -> tuple[list[Ticket], int]:
+    conditions = []
+
+    if search:
+        term = f"%{search}%"
+        conditions.append(
+            or_(
+                Ticket.subject.ilike(term),
+                Ticket.description.ilike(term),
+                Ticket.customer_email.ilike(term),
+            )
+        )
+
+    if status is not None:
+        conditions.append(Ticket.status == status)
+
+    if priority is not None:
+        conditions.append(Ticket.priority == priority)
+
+    if category is not None:
+        conditions.append(Ticket.category.ilike(f"%{category}%"))
+
+    base = select(Ticket)
+    if conditions:
+        base = base.where(*conditions)
+
+    count_q = select(func.count(Ticket.id))
+    if conditions:
+        count_q = count_q.where(*conditions)
+    total = db.scalar(count_q) or 0
+
+    if sort_by == "created_at_asc":
+        order = Ticket.created_at.asc()
+    elif sort_by == "priority_desc":
+        order = Ticket.priority.desc()
+    elif sort_by == "priority_asc":
+        order = Ticket.priority.asc()
+    else:
+        order = Ticket.created_at.desc()
+
     tickets = list(
         db.scalars(
-            select(Ticket)
-            .order_by(Ticket.created_at.desc(), Ticket.id)
-            .offset(skip)
-            .limit(limit)
+            base.order_by(order, Ticket.id).offset(skip).limit(limit)
         ).all()
     )
     return tickets, total
