@@ -48,10 +48,10 @@ export function Sidebar() {
       <div className="px-6 py-4 border-t border-gray-200">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
-            <span className="text-xs font-semibold text-indigo-700">HV</span>
+            <span className="text-xs font-semibold text-indigo-700">SP</span>
           </div>
           <div className="min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">Husain V.</p>
+            <p className="text-sm font-medium text-gray-900 truncate">Shree Prajan</p>
             <p className="text-xs text-gray-500 truncate">Admin</p>
           </div>
         </div>
