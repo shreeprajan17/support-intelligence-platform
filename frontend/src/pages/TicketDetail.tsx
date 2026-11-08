@@ -1,7 +1,10 @@
 import axios from 'axios'
-import { AlertTriangle, ChevronLeft, Pencil } from 'lucide-react'
+import { AlertTriangle, ChevronLeft, Pencil, Trash2 } from 'lucide-react'
+import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useDeleteTicket } from '../hooks/useDeleteTicket.ts'
 import { useTicket } from '../hooks/useTicket.ts'
+import { toast } from '../lib/toast.ts'
 import type { Priority, Status } from '../types/ticket.ts'
 
 const PRIORITY_STYLES: Record<Priority, string> = {
@@ -62,6 +65,18 @@ export function TicketDetailPage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const { data: ticket, isLoading, isError, error } = useTicket(id!)
+  const { mutateAsync: deleteMutation, isPending: isDeleting } = useDeleteTicket(id!)
+  const [confirmDelete, setConfirmDelete] = useState(false)
+
+  async function handleDelete() {
+    try {
+      await deleteMutation()
+      toast.success('Ticket deleted.')
+      navigate('/tickets')
+    } catch {
+      toast.error('Failed to delete ticket. Please try again.')
+    }
+  }
 
   if (isLoading) return <DetailSkeleton />
 
@@ -96,7 +111,7 @@ export function TicketDetailPage() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex items-start justify-between gap-4 flex-wrap">
         <div className="space-y-3 min-w-0">
           <button
             type="button"
@@ -120,14 +135,49 @@ export function TicketDetailPage() {
             </span>
           </div>
         </div>
-        <button
-          type="button"
-          onClick={() => navigate(`/tickets/${id}/edit`)}
-          className="flex-shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-sm font-medium text-white hover:bg-indigo-700 transition-colors"
-        >
-          <Pencil className="w-4 h-4" />
-          Edit
-        </button>
+
+        <div className="flex items-center gap-2 flex-shrink-0">
+          {confirmDelete ? (
+            <>
+              <span className="text-sm text-gray-600 hidden sm:inline">Delete this ticket?</span>
+              <button
+                type="button"
+                onClick={() => void handleDelete()}
+                disabled={isDeleting}
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-red-600 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50 transition-colors"
+              >
+                {isDeleting ? 'Deleting…' : 'Confirm'}
+              </button>
+              <button
+                type="button"
+                onClick={() => setConfirmDelete(false)}
+                disabled={isDeleting}
+                className="px-3 py-2 rounded-lg border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-colors"
+              >
+                Cancel
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                type="button"
+                onClick={() => setConfirmDelete(true)}
+                className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 text-sm font-medium text-gray-700 hover:bg-red-50 hover:border-red-300 hover:text-red-700 transition-colors"
+              >
+                <Trash2 className="w-4 h-4" />
+                <span className="hidden sm:inline">Delete</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate(`/tickets/${id}/edit`)}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-sm font-medium text-white hover:bg-indigo-700 transition-colors"
+              >
+                <Pencil className="w-4 h-4" />
+                Edit
+              </button>
+            </>
+          )}
+        </div>
       </div>
 
       <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">

@@ -30,3 +30,7 @@ export async function updateTicket(id: string, payload: TicketUpdate): Promise<T
   const { data } = await apiClient.patch<Ticket>(`/api/v1/tickets/${id}`, payload)
   return data
 }
+
+export async function deleteTicket(id: string): Promise<void> {
+  await apiClient.delete(`/api/v1/tickets/${id}`)
+}
